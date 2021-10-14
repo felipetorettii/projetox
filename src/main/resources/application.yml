@@ -1,0 +1,14 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/projetox
+    username: postgres
+    password: admin
+server:
+  port: 8081
+  servlet:
+    context-path: /projetox/v1
