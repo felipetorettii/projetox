@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class UsuarioEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_sequence")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long codigo;
 
