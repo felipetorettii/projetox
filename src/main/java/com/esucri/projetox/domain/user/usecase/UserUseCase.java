@@ -3,6 +3,8 @@ package com.esucri.projetox.domain.user.usecase;
 import com.esucri.projetox.adapters.exceptions.ErrorWarningMessage;
 import com.esucri.projetox.adapters.exceptions.ErrorWarningMessageException;
 import com.esucri.projetox.domain.user.model.UserModel;
+import com.esucri.projetox.domain.utils.mirror.Mirror;
+import com.esucri.projetox.domain.utils.mirror.impl.NullIgnoreMirror;
 import com.esucri.projetox.ports.user.UserPort;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -27,5 +29,12 @@ public class UserUseCase {
             () ->
                 new ErrorWarningMessageException(
                     new ErrorWarningMessage(E001.getCode(), E001.getMessage())));
+  }
+
+  public UserModel update(Long id, UserModel model) {
+    var existingUser = read(id);
+    Mirror nullIgnoreMirror = new NullIgnoreMirror();
+    var updatedUser = nullIgnoreMirror.copy(model, existingUser);
+    return port.update(updatedUser);
   }
 }

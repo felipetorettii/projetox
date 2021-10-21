@@ -17,15 +17,12 @@ import javax.validation.constraints.NotNull;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserRequestDTO {
 
-  @NotNull(message = "O nome do usuário não pode nulo.")
-  @NotEmpty(message = "O nome do usuário não pode ser vazio.")
+  @NotEmpty(message = "O nome do usuário não pode ser nulo ou vazio.")
   private String name;
 
-  @NotNull(message = "O email do usuário não pode nulo.")
-  @NotEmpty(message = "O email do usuário não pode ser vazio.")
+  @NotEmpty(message = "O email do usuário não pode ser nulo ou vazio.")
   private String email;
 
-  @NotNull(message = "A senha do usuário não pode nula.")
-  @NotEmpty(message = "A senha do usuário não pode ser vazio.")
+  @NotEmpty(message = "A senha do usuário não pode ser nulo ou vazio.")
   private String pass;
 }

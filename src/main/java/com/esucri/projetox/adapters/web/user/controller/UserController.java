@@ -9,8 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class UserController {
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<GenericResponseDTO> save(@RequestBody @Validated UserRequestDTO dto) {
+  public ResponseEntity<GenericResponseDTO> save(@RequestBody @Valid UserRequestDTO dto) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             GenericResponseDTO.builder()
@@ -35,5 +36,18 @@ public class UserController {
   public ResponseEntity<GenericResponseDTO> read(@PathVariable(name = "id") Long id) {
     return ResponseEntity.ok(
         GenericResponseDTO.builder().data(mapper.toResponse(useCase.read(id))).build());
+  }
+
+  @PatchMapping(
+      value = "/{id}",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<GenericResponseDTO> update(
+      @PathVariable(name = "id") Long id, @RequestBody UserRequestDTO dto) {
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(
+            GenericResponseDTO.builder()
+                .data(mapper.toResponse(useCase.update(id, mapper.toModel(dto))))
+                .build());
   }
 }

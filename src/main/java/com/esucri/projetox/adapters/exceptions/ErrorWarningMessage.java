@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -15,4 +18,10 @@ import lombok.NoArgsConstructor;
 public class ErrorWarningMessage {
   private String code;
   private String message;
+  private List<ErrorWarningField> fields = new ArrayList<>();
+
+  public ErrorWarningMessage(String code, String message) {
+    this.code = code;
+    this.message = message;
+  }
 }

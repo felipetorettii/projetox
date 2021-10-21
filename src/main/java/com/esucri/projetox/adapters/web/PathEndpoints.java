@@ -12,4 +12,5 @@ import java.io.Serializable;
 public class PathEndpoints implements Serializable {
   public static final String ENDPOINT_USER = "/users";
   public static final String ENDPOINT_PROMOTER = "/promoters";
+  public static final String ENDPOINT_LOGIN = "/logins";
 }
