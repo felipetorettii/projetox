@@ -14,4 +14,6 @@ public interface EventPort {
   Optional<EventModel> readById(Long id);
 
   List<EventModel> readByPromoterId(Long id);
+
+  List<EventModel> readAll();
 }

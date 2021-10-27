@@ -30,6 +30,11 @@ public class EventUseCase {
   }
 
   @SneakyThrows
+  public List<EventModel> readAll() {
+    return port.readAll();
+  }
+
+  @SneakyThrows
   public EventModel read(Long id) {
     return port.readById(id)
         .orElseThrow(

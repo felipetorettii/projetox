@@ -39,4 +39,9 @@ public class EventPortImpl implements EventPort {
         .map(mapper::toModel)
         .collect(Collectors.toList());
   }
+
+  @Override
+  public List<EventModel> readAll() {
+    return repository.findAll().stream().map(mapper::toModel).collect(Collectors.toList());
+  }
 }

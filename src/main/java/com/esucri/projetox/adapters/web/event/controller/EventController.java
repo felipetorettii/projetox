@@ -31,6 +31,12 @@ public class EventController {
                 .build());
   }
 
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<GenericResponseDTO> readAll() {
+    return ResponseEntity.ok(
+        GenericResponseDTO.builder().data(mapper.toResponseList(useCase.readAll())).build());
+  }
+
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GenericResponseDTO> read(@PathVariable(name = "id") Long id) {
     return ResponseEntity.ok(
