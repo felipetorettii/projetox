@@ -8,7 +8,9 @@ import lombok.Getter;
 public enum ErrorMessage {
   E000("E000", "Erro de validação de campos."),
   E001("E001", "Usuário não encontrado."),
-  E002("E002", "Promoter não encontrado.");
+  E002("E002", "Promoter não encontrado."),
+  E003("E003", "Evento não encontrado."),
+  E004("E004", "Nenhum evento encontrado para o promoter de código %d.");
 
   private String code;
   private String message;
