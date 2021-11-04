@@ -17,5 +17,4 @@ import org.springframework.web.multipart.MultipartFile;
 public class PromoterRequestDTO {
 
     private UserRequestDTO user;
-    private MultipartFile photo;
 }

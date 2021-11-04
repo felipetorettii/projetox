@@ -35,8 +35,6 @@ public class EventRequestDTO {
   @NotNull(message = "É necessário informar o valor do ticket do evento.")
   private BigDecimal ticketValue;
 
-  private MultipartFile image;
-
   @NotNull(message = "É necessário informar a data do evento.")
   private LocalDate eventDate;
 }

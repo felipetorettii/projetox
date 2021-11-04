@@ -2,15 +2,14 @@ package com.esucri.projetox.adapters.web.event.controller;
 
 import com.esucri.projetox.adapters.web.GenericResponseDTO;
 import com.esucri.projetox.adapters.web.PathEndpoints;
-import com.esucri.projetox.adapters.web.event.controller.data.EventRequestDTO;
 import com.esucri.projetox.adapters.web.event.mapper.EventDTOMapper;
 import com.esucri.projetox.domain.event.usecase.EventUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,13 +20,14 @@ public class EventController {
   private final EventDTOMapper mapper;
 
   @PostMapping(
-      consumes = MediaType.APPLICATION_JSON_VALUE,
+      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<GenericResponseDTO> salvar(@RequestBody @Validated EventRequestDTO dto) {
+  public ResponseEntity<GenericResponseDTO> salvar(
+      @RequestPart("data") String data, @RequestPart("image") MultipartFile image) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             GenericResponseDTO.builder()
-                .data(mapper.toResponse(useCase.salvar(mapper.toModel(dto))))
+                .data(mapper.toResponse(useCase.salvar(data, image)))
                 .build());
   }
 
@@ -53,14 +53,16 @@ public class EventController {
 
   @PatchMapping(
       value = "/{id}",
-      consumes = MediaType.APPLICATION_JSON_VALUE,
+      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GenericResponseDTO> update(
-      @PathVariable(name = "id") Long id, @RequestBody EventRequestDTO dto) {
+      @PathVariable(name = "id") Long id,
+      @RequestPart("data") String data,
+      @RequestPart("image") MultipartFile image) {
     return ResponseEntity.status(HttpStatus.OK)
         .body(
             GenericResponseDTO.builder()
-                .data(mapper.toResponse(useCase.update(id, mapper.toModel(dto))))
+                .data(mapper.toResponse(useCase.update(id, data, image)))
                 .build());
   }
 }

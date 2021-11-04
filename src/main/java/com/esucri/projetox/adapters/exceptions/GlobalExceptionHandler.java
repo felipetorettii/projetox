@@ -32,6 +32,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(GenericResponseDTO.builder().error(e.getErrorWarningMessage()).build());
   }
 
+  @ExceptionHandler(value = UnprocessableJsonException.class)
+  public ResponseEntity<GenericResponseDTO> handleUnprocessableJsonException(
+      UnprocessableJsonException e) {
+    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+        .body(GenericResponseDTO.builder().error(e.getErrorWarningMessage()).build());
+  }
+
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(
       MethodArgumentNotValidException ex,

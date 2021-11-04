@@ -9,11 +9,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface EventEntityMapper {
 
-  @Mapping(target = "image", ignore = true)
-  @Mapping(target = "promoter.photo", ignore = true)
   EventEntity toEntity(EventModel model);
 
-  @Mapping(target = "image", ignore = true)
-  @Mapping(target = "promoter.photo", ignore = true)
   EventModel toModel(EventEntity entity);
 }

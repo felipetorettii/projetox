@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,5 +14,5 @@ public class PromoterModel {
 
   private Long id;
   private UserModel user;
-  private MultipartFile photo;
+  private byte[] photo;
 }

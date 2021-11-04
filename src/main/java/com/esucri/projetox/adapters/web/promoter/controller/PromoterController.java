@@ -2,15 +2,14 @@ package com.esucri.projetox.adapters.web.promoter.controller;
 
 import com.esucri.projetox.adapters.web.GenericResponseDTO;
 import com.esucri.projetox.adapters.web.PathEndpoints;
-import com.esucri.projetox.adapters.web.promoter.controller.data.PromoterRequestDTO;
 import com.esucri.projetox.adapters.web.promoter.mapper.PromoterDTOMapper;
 import com.esucri.projetox.domain.promoter.usecase.PromoterUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,13 +20,14 @@ public class PromoterController {
   private final PromoterDTOMapper mapper;
 
   @PostMapping(
-      consumes = MediaType.APPLICATION_JSON_VALUE,
+      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<GenericResponseDTO> salvar(@RequestBody @Validated PromoterRequestDTO dto) {
+  public ResponseEntity<GenericResponseDTO> salvar(
+      @RequestPart("data") String data, @RequestPart("photo") MultipartFile photo) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             GenericResponseDTO.builder()
-                .data(mapper.toResponse(useCase.salvar(mapper.toModel(dto))))
+                .data(mapper.toResponse(useCase.salvar(data, photo)))
                 .build());
   }
 
@@ -45,14 +45,16 @@ public class PromoterController {
 
   @PatchMapping(
       value = "/{id}",
-      consumes = MediaType.APPLICATION_JSON_VALUE,
+      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GenericResponseDTO> update(
-      @PathVariable(name = "id") Long id, @RequestBody PromoterRequestDTO dto) {
+      @PathVariable(name = "id") Long id,
+      @RequestPart("data") String data,
+      @RequestPart("photo") MultipartFile photo) {
     return ResponseEntity.status(HttpStatus.OK)
         .body(
             GenericResponseDTO.builder()
-                .data(mapper.toResponse(useCase.update(id, mapper.toModel(dto))))
+                .data(mapper.toResponse(useCase.update(id, data, photo)))
                 .build());
   }
 }

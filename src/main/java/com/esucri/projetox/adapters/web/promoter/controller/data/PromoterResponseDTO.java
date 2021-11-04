@@ -18,5 +18,5 @@ public class PromoterResponseDTO {
 
   private Long id;
   private UserResponseDTO user;
-  private MultipartFile photo;
+  private byte[] photo;
 }
