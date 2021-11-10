@@ -14,4 +14,5 @@ public class PathEndpoints implements Serializable {
   public static final String ENDPOINT_PROMOTER = "/promoters";
   public static final String ENDPOINT_LOGIN = "/logins";
   public static final String ENDPOINT_EVENT = "/events";
+  public static final String ENDPOINT_TICKET = "/tickets";
 }

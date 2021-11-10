@@ -20,7 +20,7 @@ public class EventController {
   private final EventDTOMapper mapper;
 
   @PostMapping(
-      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+      consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GenericResponseDTO> salvar(
       @RequestPart("data") String data, @RequestPart("image") MultipartFile image) {
@@ -53,7 +53,7 @@ public class EventController {
 
   @PatchMapping(
       value = "/{id}",
-      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+      consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GenericResponseDTO> update(
       @PathVariable(name = "id") Long id,

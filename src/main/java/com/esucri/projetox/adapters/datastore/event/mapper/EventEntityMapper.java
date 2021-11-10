@@ -3,7 +3,6 @@ package com.esucri.projetox.adapters.datastore.event.mapper;
 import com.esucri.projetox.adapters.datastore.event.entity.EventEntity;
 import com.esucri.projetox.domain.event.model.EventModel;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE)

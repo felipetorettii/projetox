@@ -24,7 +24,7 @@ public class EventEntity {
   @Column(name = "id")
   private Long id;
 
-  @OneToOne(cascade = CascadeType.MERGE)
+  @ManyToOne(cascade = CascadeType.MERGE)
   @JoinColumn(name = "id_promoter", referencedColumnName = "id")
   private PromoterEntity promoter;
 
