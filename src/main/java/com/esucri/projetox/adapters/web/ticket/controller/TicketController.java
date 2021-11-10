@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -33,5 +30,23 @@ public class TicketController {
             GenericResponseDTO.builder()
                 .data(mapper.toResponse(useCase.salvar(mapper.toModel(dto))))
                 .build());
+  }
+
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<GenericResponseDTO> readAll() {
+    return ResponseEntity.ok(
+        GenericResponseDTO.builder().data(mapper.toResponseList(useCase.readAll())).build());
+  }
+
+  @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<GenericResponseDTO> read(@PathVariable(name = "id") Long id) {
+    return ResponseEntity.ok(
+        GenericResponseDTO.builder().data(mapper.toResponse(useCase.read(id))).build());
+  }
+
+  @GetMapping(value = PathEndpoints.ENDPOINT_USER + "/{id}")
+  public ResponseEntity<GenericResponseDTO> readByPromoter(@PathVariable(name = "id") Long id) {
+    return ResponseEntity.ok(
+        GenericResponseDTO.builder().data(mapper.toResponseList(useCase.readByUserId(id))).build());
   }
 }

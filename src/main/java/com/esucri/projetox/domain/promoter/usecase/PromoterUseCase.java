@@ -14,6 +14,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Objects;
 
 import static com.esucri.projetox.adapters.exceptions.ErrorMessage.E002;
@@ -29,6 +30,10 @@ public class PromoterUseCase {
   public PromoterModel salvar(String data, MultipartFile photo) {
     var model = getModel(data, photo);
     return port.create(model);
+  }
+
+  public List<PromoterModel> readAll() {
+    return port.readAll();
   }
 
   @SneakyThrows
