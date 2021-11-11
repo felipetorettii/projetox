@@ -35,7 +35,7 @@ public class EventPortImpl implements EventPort {
 
   @Override
   public List<EventModel> readByPromoterId(Long id) {
-    return repository.findEventEntityByPromoterId(id).stream()
+    return repository.findEventEntitiesByPromoterId(id).stream()
         .map(mapper::toModel)
         .collect(Collectors.toList());
   }

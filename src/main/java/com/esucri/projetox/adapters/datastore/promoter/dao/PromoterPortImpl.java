@@ -7,7 +7,9 @@ import com.esucri.projetox.ports.promoter.PromoterPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -34,5 +36,10 @@ public class PromoterPortImpl implements PromoterPort {
   @Override
   public Optional<PromoterModel> readByUserId(Long id) {
     return repository.findPromoterEntityByUserId(id).map(mapper::toModel);
+  }
+
+  @Override
+  public List<PromoterModel> readAll() {
+    return repository.findAll().stream().map(mapper::toModel).collect(Collectors.toList());
   }
 }
