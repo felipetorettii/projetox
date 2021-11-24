@@ -44,7 +44,7 @@ public class PromoterPortImpl implements PromoterPort {
   }
 
   @Override
-  public Optional<PromoterModel> readToLogin(String emailOrName, String pass) {
-    return repository.readToLogin(emailOrName, pass).map(mapper::toModel);
+  public boolean existsByIdUserId(Long id) {
+    return repository.existsPromoterEntityByUserId(id);
   }
 }

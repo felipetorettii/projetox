@@ -27,7 +27,7 @@ public class PromoterController {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             GenericResponseDTO.builder()
-                .data(mapper.toResponse(useCase.salvar(data, photo)))
+                .data(mapper.toResponse(useCase.save(data, photo)))
                 .build());
   }
 

@@ -9,6 +9,7 @@ import com.esucri.projetox.domain.user.usecase.UserUseCase;
 import com.esucri.projetox.domain.utils.mirror.Mirror;
 import com.esucri.projetox.domain.utils.mirror.impl.NullIgnoreMirror;
 import com.esucri.projetox.ports.promoter.PromoterPort;
+import com.esucri.projetox.ports.user.UserPort;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -25,10 +26,12 @@ import static com.esucri.projetox.adapters.exceptions.ErrorMessage.*;
 public class PromoterUseCase {
 
   private final PromoterPort port;
+  private final UserPort userPort;
   private final UserUseCase userUseCase;
 
-  public PromoterModel salvar(String data, MultipartFile photo) {
+  public PromoterModel save(String data, MultipartFile photo) {
     var model = getModel(data, photo);
+    verifyEmail(model.getUser().getEmail(), model.getUser().getId());
     return port.create(model);
   }
 
@@ -54,6 +57,7 @@ public class PromoterUseCase {
   public PromoterModel update(Long id, String data, MultipartFile photo) {
     var model = getModel(data, photo);
     var existingPromoter = read(id, false);
+    verifyEmail(model.getUser().getEmail(), existingPromoter.getUser().getId());
     Mirror nullIgnoreMirror = new NullIgnoreMirror();
     var userId = existingPromoter.getUser().getId();
     var updatedPromoter = nullIgnoreMirror.copy(model, existingPromoter);
@@ -77,12 +81,10 @@ public class PromoterUseCase {
   }
 
   @SneakyThrows
-  public void loginPromoter(LoginModel model) {
-    var user =
-        port.readToLogin(model.getEmailOrName(), model.getPass())
-            .orElseThrow(
-                () ->
-                    new ErrorWarningMessageException(
-                        new ErrorWarningMessage(E008.getCode(), E008.getMessage())));
+  private void verifyEmail(String email, Long id) {
+    var existsEmail = userPort.readByEmail(email, id);
+    if (existsEmail.isPresent())
+      throw new ErrorWarningMessageException(
+              new ErrorWarningMessage(E009.getCode(), E009.getMessage()));
   }
 }

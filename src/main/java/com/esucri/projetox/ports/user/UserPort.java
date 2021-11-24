@@ -15,4 +15,6 @@ public interface UserPort {
   List<UserModel> readAll();
 
   Optional<UserModel> readToLogin(String emailOrName, String pass);
+
+  Optional<UserModel> readByEmail(String email, Long id);
 }

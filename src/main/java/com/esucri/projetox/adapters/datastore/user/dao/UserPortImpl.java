@@ -42,4 +42,9 @@ public class UserPortImpl implements UserPort {
   public Optional<UserModel> readToLogin(String emailOrName, String pass) {
     return repository.readToLogin(emailOrName, pass).map(mapper::toModel);
   }
+
+  @Override
+  public Optional<UserModel> readByEmail(String email, Long id) {
+    return repository.readByEmail(email, id).map(mapper::toModel);
+  }
 }

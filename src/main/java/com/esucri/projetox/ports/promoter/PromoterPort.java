@@ -16,5 +16,5 @@ public interface PromoterPort {
 
   List<PromoterModel> readAll();
 
-  Optional<PromoterModel> readToLogin(String emailOrName, String pass);
+  boolean existsByIdUserId(Long id);
 }
