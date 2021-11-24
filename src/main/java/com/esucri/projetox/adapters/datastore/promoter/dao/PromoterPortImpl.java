@@ -42,4 +42,9 @@ public class PromoterPortImpl implements PromoterPort {
   public List<PromoterModel> readAll() {
     return repository.findAll().stream().map(mapper::toModel).collect(Collectors.toList());
   }
+
+  @Override
+  public Optional<PromoterModel> readToLogin(String emailOrName, String pass) {
+    return repository.readToLogin(emailOrName, pass).map(mapper::toModel);
+  }
 }

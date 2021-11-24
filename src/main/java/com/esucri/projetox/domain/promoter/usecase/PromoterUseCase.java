@@ -3,6 +3,7 @@ package com.esucri.projetox.domain.promoter.usecase;
 import com.esucri.projetox.adapters.exceptions.ErrorWarningMessage;
 import com.esucri.projetox.adapters.exceptions.ErrorWarningMessageException;
 import com.esucri.projetox.adapters.exceptions.UnprocessableJsonException;
+import com.esucri.projetox.domain.login.model.LoginModel;
 import com.esucri.projetox.domain.promoter.model.PromoterModel;
 import com.esucri.projetox.domain.user.usecase.UserUseCase;
 import com.esucri.projetox.domain.utils.mirror.Mirror;
@@ -17,8 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Objects;
 
-import static com.esucri.projetox.adapters.exceptions.ErrorMessage.E002;
-import static com.esucri.projetox.adapters.exceptions.ErrorMessage.E005;
+import static com.esucri.projetox.adapters.exceptions.ErrorMessage.*;
 
 @Service
 @RequiredArgsConstructor
@@ -74,5 +74,15 @@ public class PromoterUseCase {
       throw new UnprocessableJsonException(
           new ErrorWarningMessage(E005.getCode(), E005.getMessage()));
     }
+  }
+
+  @SneakyThrows
+  public void loginPromoter(LoginModel model) {
+    var user =
+        port.readToLogin(model.getEmailOrName(), model.getPass())
+            .orElseThrow(
+                () ->
+                    new ErrorWarningMessageException(
+                        new ErrorWarningMessage(E008.getCode(), E008.getMessage())));
   }
 }

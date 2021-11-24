@@ -7,6 +7,7 @@ import com.esucri.projetox.ports.event.EventPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,12 +37,16 @@ public class EventPortImpl implements EventPort {
   @Override
   public List<EventModel> readByPromoterId(Long id) {
     return repository.findEventEntitiesByPromoterId(id).stream()
+        .filter(e -> !e.getEventDate().isBefore(LocalDate.now()))
         .map(mapper::toModel)
         .collect(Collectors.toList());
   }
 
   @Override
   public List<EventModel> readAll() {
-    return repository.findAll().stream().map(mapper::toModel).collect(Collectors.toList());
+    return repository.findAll().stream()
+        .filter(e -> !e.getEventDate().isBefore(LocalDate.now()))
+        .map(mapper::toModel)
+        .collect(Collectors.toList());
   }
 }

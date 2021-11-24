@@ -2,6 +2,7 @@ package com.esucri.projetox.ports.user;
 
 import com.esucri.projetox.domain.user.model.UserModel;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserPort {
@@ -10,4 +11,8 @@ public interface UserPort {
   UserModel update(UserModel model);
 
   Optional<UserModel> read(Long id);
+
+  List<UserModel> readAll();
+
+  Optional<UserModel> readToLogin(String emailOrName, String pass);
 }

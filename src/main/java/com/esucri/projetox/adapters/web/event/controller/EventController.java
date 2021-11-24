@@ -5,11 +5,9 @@ import com.esucri.projetox.adapters.web.PathEndpoints;
 import com.esucri.projetox.adapters.web.event.mapper.EventDTOMapper;
 import com.esucri.projetox.domain.event.usecase.EventUseCase;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

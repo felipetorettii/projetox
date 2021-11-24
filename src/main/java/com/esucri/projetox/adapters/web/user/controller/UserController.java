@@ -38,6 +38,12 @@ public class UserController {
         GenericResponseDTO.builder().data(mapper.toResponse(useCase.read(id))).build());
   }
 
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<GenericResponseDTO> readAll() {
+    return ResponseEntity.ok(
+        GenericResponseDTO.builder().data(mapper.toResponseList(useCase.readAll())).build());
+  }
+
   @PatchMapping(
       value = "/{id}",
       consumes = MediaType.APPLICATION_JSON_VALUE,

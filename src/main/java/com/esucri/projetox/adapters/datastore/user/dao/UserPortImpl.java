@@ -7,7 +7,9 @@ import com.esucri.projetox.ports.user.UserPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -29,5 +31,15 @@ public class UserPortImpl implements UserPort {
   @Override
   public Optional<UserModel> read(Long id) {
     return repository.findById(id).map(mapper::toModel);
+  }
+
+  @Override
+  public List<UserModel> readAll() {
+    return repository.findAll().stream().map(mapper::toModel).collect(Collectors.toList());
+  }
+
+  @Override
+  public Optional<UserModel> readToLogin(String emailOrName, String pass) {
+    return repository.readToLogin(emailOrName, pass).map(mapper::toModel);
   }
 }

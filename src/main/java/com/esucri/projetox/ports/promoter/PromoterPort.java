@@ -15,4 +15,6 @@ public interface PromoterPort {
   Optional<PromoterModel> readByUserId(Long id);
 
   List<PromoterModel> readAll();
+
+  Optional<PromoterModel> readToLogin(String emailOrName, String pass);
 }

@@ -13,7 +13,8 @@ public enum ErrorMessage {
   E004("E004", "Nenhum evento encontrado para o promoter de código %d."),
   E005("E005", "Erro ao processar dados de entrada."),
   E006("E006", "Ticket não encontrado."),
-  E007("E007", "Nenhum ticket encontrado para o usuário de código %d.");
+  E007("E007", "Nenhum ticket encontrado para o usuário de código %d."),
+  E008("E008", "Credenciais incorretas.");
 
   private String code;
   private String message;
