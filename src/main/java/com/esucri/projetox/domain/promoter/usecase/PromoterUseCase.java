@@ -3,7 +3,6 @@ package com.esucri.projetox.domain.promoter.usecase;
 import com.esucri.projetox.adapters.exceptions.ErrorWarningMessage;
 import com.esucri.projetox.adapters.exceptions.ErrorWarningMessageException;
 import com.esucri.projetox.adapters.exceptions.UnprocessableJsonException;
-import com.esucri.projetox.domain.login.model.LoginModel;
 import com.esucri.projetox.domain.promoter.model.PromoterModel;
 import com.esucri.projetox.domain.user.usecase.UserUseCase;
 import com.esucri.projetox.domain.utils.mirror.Mirror;
@@ -14,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -70,6 +70,7 @@ public class PromoterUseCase {
     PromoterModel model;
     try {
       model = new ObjectMapper().readValue(data, PromoterModel.class);
+
       if (Objects.nonNull(photo)) {
         model.setPhoto(photo.getBytes());
       }
@@ -85,6 +86,12 @@ public class PromoterUseCase {
     var existsEmail = userPort.readByEmail(email, id);
     if (existsEmail.isPresent())
       throw new ErrorWarningMessageException(
-              new ErrorWarningMessage(E009.getCode(), E009.getMessage()));
+          new ErrorWarningMessage(E009.getCode(), E009.getMessage()));
+  }
+
+  private void validatePromoter(PromoterModel model) {
+    Assert.notNull(model.getUser().getName(), "O nome do usuário não pode ser nulo ou vazio.");
+    Assert.notNull(model.getUser().getEmail(), "O email do usuário não pode ser nulo ou vazio.");
+    Assert.notNull(model.getUser().getPass(), "A senha do usuário não pode ser nulo ou vazio.");
   }
 }

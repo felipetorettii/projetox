@@ -39,6 +39,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(GenericResponseDTO.builder().error(e.getErrorWarningMessage()).build());
   }
 
+  @ExceptionHandler(value = IllegalArgumentException.class)
+  public ResponseEntity<GenericResponseDTO> handleIllegalArgumentException(
+      IllegalArgumentException e) {
+    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+        .body(GenericResponseDTO.builder().error(e.getMessage()).build());
+  }
+
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(
       MethodArgumentNotValidException ex,

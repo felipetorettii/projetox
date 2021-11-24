@@ -11,7 +11,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
   @Query(
       value =
-          "select u from UserEntity u where (u.email = :emailOrName or u.name = :emailOrName) and u.pass = :pass")
+          "select u from UserEntity u where u.email = :emailOrName and u.pass = :pass")
   Optional<UserEntity> readToLogin(
       @Param("emailOrName") String emailOrName, @Param("pass") String pass);
 

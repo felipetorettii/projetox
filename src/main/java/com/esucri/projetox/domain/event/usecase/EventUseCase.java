@@ -14,6 +14,7 @@ import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class EventUseCase {
 
   public EventModel salvar(String data, MultipartFile image) {
     var model = getModel(data, image);
+    validateModel(model);
     var promoter = promoterUseCase.read(model.getPromoterId(), false);
     model.setPromoter(promoter);
     return port.create(model);
@@ -84,5 +86,14 @@ public class EventUseCase {
       throw new UnprocessableJsonException(
           new ErrorWarningMessage(E005.getCode(), E005.getMessage()));
     }
+  }
+
+  private void validateModel(EventModel model) {
+    Assert.notNull(model.getPromoterId(), "É necessário informar o código do promoter do evento.");
+    Assert.notNull(model.getName(), "É necessário informar o nome do evento.");
+    Assert.notNull(model.getDescription(), "É necessário informar a descrição do evento.");
+    Assert.notNull(model.getTicketAmount(), "É necessário informar a quantidade de tickets do evento.");
+    Assert.notNull(model.getTicketValue(), "É necessário informar o valor do ticket do evento.");
+    Assert.notNull(model.getEventDate(), "É necessário informar a data do evento.");
   }
 }
