@@ -49,4 +49,9 @@ public class EventPortImpl implements EventPort {
         .map(mapper::toModel)
         .collect(Collectors.toList());
   }
+
+  @Override
+  public void deleteByPromoterId(Long promoterId) {
+    repository.deleteEventByPromoterId(promoterId);
+  }
 }

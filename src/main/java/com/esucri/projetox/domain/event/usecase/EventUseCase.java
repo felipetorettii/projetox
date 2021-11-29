@@ -88,6 +88,10 @@ public class EventUseCase {
     }
   }
 
+  public void deleteEventByPromoterId(Long promoterId) {
+    port.deleteByPromoterId(promoterId);
+  }
+
   private void validateModel(EventModel model) {
     Assert.notNull(model.getPromoterId(), "É necessário informar o código do promoter do evento.");
     Assert.notNull(model.getName(), "É necessário informar o nome do evento.");

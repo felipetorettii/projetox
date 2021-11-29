@@ -44,4 +44,9 @@ public class TicketPortImpl implements TicketPort {
   public List<TicketModel> readAll() {
     return repository.findAll().stream().map(mapper::toModel).collect(Collectors.toList());
   }
+
+  @Override
+  public void deleteByUserId(Long userId) {
+    repository.deleteTicketByUserId(userId);
+  }
 }

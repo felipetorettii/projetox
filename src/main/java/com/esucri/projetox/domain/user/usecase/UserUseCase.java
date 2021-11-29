@@ -69,4 +69,9 @@ public class UserUseCase {
     model.setUser(user);
     return model;
   }
+
+  public void deleteById(Long id) {
+    var user = read(id);
+    port.deleteById(id);
+  }
 }

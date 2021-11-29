@@ -49,6 +49,12 @@ public class PromoterController {
         GenericResponseDTO.builder().data(mapper.toResponse(useCase.read(id, true))).build());
   }
 
+  @DeleteMapping(value = "/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public void delete(@PathVariable(name = "id") Long id) {
+    useCase.deleteById(id);
+  }
+
   @PatchMapping(
       value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},

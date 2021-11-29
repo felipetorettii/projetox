@@ -17,4 +17,6 @@ public interface PromoterPort {
   List<PromoterModel> readAll();
 
   boolean existsByIdUserId(Long id);
+
+  void deleteById(Long id);
 }

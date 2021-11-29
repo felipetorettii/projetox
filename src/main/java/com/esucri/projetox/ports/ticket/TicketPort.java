@@ -16,4 +16,6 @@ public interface TicketPort {
   List<TicketModel> readByUserId(Long id);
 
   List<TicketModel> readAll();
+
+  void deleteByUserId(Long userId);
 }

@@ -47,4 +47,9 @@ public class PromoterPortImpl implements PromoterPort {
   public boolean existsByIdUserId(Long id) {
     return repository.existsPromoterEntityByUserId(id);
   }
+
+  @Override
+  public void deleteById(Long id) {
+    repository.deleteById(id);
+  }
 }

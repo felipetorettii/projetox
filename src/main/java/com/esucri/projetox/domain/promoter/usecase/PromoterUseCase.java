@@ -3,11 +3,15 @@ package com.esucri.projetox.domain.promoter.usecase;
 import com.esucri.projetox.adapters.exceptions.ErrorWarningMessage;
 import com.esucri.projetox.adapters.exceptions.ErrorWarningMessageException;
 import com.esucri.projetox.adapters.exceptions.UnprocessableJsonException;
+import com.esucri.projetox.domain.event.usecase.EventUseCase;
 import com.esucri.projetox.domain.promoter.model.PromoterModel;
+import com.esucri.projetox.domain.ticket.usecase.TicketUseCase;
 import com.esucri.projetox.domain.user.usecase.UserUseCase;
 import com.esucri.projetox.domain.utils.mirror.Mirror;
 import com.esucri.projetox.domain.utils.mirror.impl.NullIgnoreMirror;
+import com.esucri.projetox.ports.event.EventPort;
 import com.esucri.projetox.ports.promoter.PromoterPort;
+import com.esucri.projetox.ports.ticket.TicketPort;
 import com.esucri.projetox.ports.user.UserPort;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +32,12 @@ public class PromoterUseCase {
   private final PromoterPort port;
   private final UserPort userPort;
   private final UserUseCase userUseCase;
+  private final TicketPort ticketPort;
+  private final EventPort eventPort;
 
   public PromoterModel save(String data, MultipartFile photo) {
     var model = getModel(data, photo);
+    validatePromoter(model);
     verifyEmail(model.getUser().getEmail(), model.getUser().getId());
     return port.create(model);
   }
@@ -63,6 +70,15 @@ public class PromoterUseCase {
     var updatedPromoter = nullIgnoreMirror.copy(model, existingPromoter);
     updatedPromoter.setUser(userUseCase.update(userId, updatedPromoter.getUser()));
     return port.update(updatedPromoter);
+  }
+
+  public void deleteById(Long id) {
+    var promoter = read(id, false);
+    var userId = promoter.getUser().getId();
+    ticketPort.deleteByUserId(userId);
+    eventPort.deleteByPromoterId(id);
+    port.deleteById(promoter.getId());
+    userUseCase.deleteById(userId);
   }
 
   @SneakyThrows

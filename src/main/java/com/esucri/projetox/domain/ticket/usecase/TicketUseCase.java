@@ -53,4 +53,8 @@ public class TicketUseCase {
   public List<TicketModel> readAll() {
     return port.readAll();
   }
+
+  public void deleteTicketByUserId(Long userId) {
+    port.deleteByUserId(userId);
+  }
 }

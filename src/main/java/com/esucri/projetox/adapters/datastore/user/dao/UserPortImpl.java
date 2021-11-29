@@ -47,4 +47,9 @@ public class UserPortImpl implements UserPort {
   public Optional<UserModel> readByEmail(String email, Long id) {
     return repository.readByEmail(email, id).map(mapper::toModel);
   }
+
+  @Override
+  public void deleteById(Long id) {
+    repository.deleteById(id);
+  }
 }
