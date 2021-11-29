@@ -15,7 +15,8 @@ public enum ErrorMessage {
   E006("E006", "Ticket não encontrado."),
   E007("E007", "Nenhum ticket encontrado para o usuário de código %d."),
   E008("E008", "Credenciais incorretas."),
-  E009("E009", "Email já cadastrado.");
+  E009("E009", "Email já cadastrado."),
+  E010("E010", "Tickets do evento esgotados.");
 
   private String code;
   private String message;
