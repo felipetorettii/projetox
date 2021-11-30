@@ -23,7 +23,7 @@ public class PromoterController {
       consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GenericResponseDTO> salvar(
-      @RequestPart("data") String data, @RequestPart("photo") MultipartFile photo) {
+      @RequestPart("data") String data, @RequestPart(value = "photo", required = false) MultipartFile photo) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             GenericResponseDTO.builder()

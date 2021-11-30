@@ -23,7 +23,7 @@ public class EventController {
       consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GenericResponseDTO> salvar(
-      @RequestPart("data") String data, @RequestPart("image") MultipartFile image) {
+      @RequestPart("data") String data, @RequestPart(value = "image", required = false) MultipartFile image) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             GenericResponseDTO.builder()
