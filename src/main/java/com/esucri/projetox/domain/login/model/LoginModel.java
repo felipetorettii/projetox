@@ -16,4 +16,5 @@ public class LoginModel {
   private String pass;
   private boolean admin;
   private UserModel user;
+  private Long promoterId;
 }

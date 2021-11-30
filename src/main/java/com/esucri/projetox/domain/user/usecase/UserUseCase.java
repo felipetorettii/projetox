@@ -65,8 +65,13 @@ public class UserUseCase {
                 () ->
                     new ErrorWarningMessageException(
                         new ErrorWarningMessage(E008.getCode(), E008.getMessage())));
-    model.setAdmin(promoterPort.existsByIdUserId(user.getId()));
+    var promoter = promoterPort.readByUserId(user.getId());
     model.setUser(user);
+    model.setAdmin(false);
+    if (promoter.isPresent()) {
+      model.setAdmin(true);
+      model.setPromoterId(promoter.get().getId());
+    }
     return model;
   }
 

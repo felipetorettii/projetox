@@ -17,4 +17,5 @@ public class LoginResponseDTO {
 
     private boolean admin;
     private UserResponseDTO user;
+    private Long promoterId;
 }
