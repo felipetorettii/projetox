@@ -23,7 +23,8 @@ public class EventController {
       consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GenericResponseDTO> salvar(
-      @RequestPart("data") String data, @RequestPart(value = "image", required = false) MultipartFile image) {
+      @RequestPart("data") String data,
+      @RequestPart(value = "image", required = false) MultipartFile image) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             GenericResponseDTO.builder()
@@ -41,6 +42,12 @@ public class EventController {
   public ResponseEntity<GenericResponseDTO> read(@PathVariable(name = "id") Long id) {
     return ResponseEntity.ok(
         GenericResponseDTO.builder().data(mapper.toResponse(useCase.read(id))).build());
+  }
+
+  @GetMapping(value = PathEndpoints.ENDPOINT_USER + "/{id}")
+  public ResponseEntity<GenericResponseDTO> readByUser(@PathVariable(name = "id") Long id) {
+    return ResponseEntity.ok(
+        GenericResponseDTO.builder().data(mapper.toResponseList(useCase.readByUser(id))).build());
   }
 
   @GetMapping(value = PathEndpoints.ENDPOINT_PROMOTER + "/{id}")

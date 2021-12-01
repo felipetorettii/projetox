@@ -5,9 +5,11 @@ import com.esucri.projetox.adapters.exceptions.ErrorWarningMessageException;
 import com.esucri.projetox.adapters.exceptions.UnprocessableJsonException;
 import com.esucri.projetox.domain.event.model.EventModel;
 import com.esucri.projetox.domain.promoter.usecase.PromoterUseCase;
+import com.esucri.projetox.domain.ticket.model.TicketModel;
 import com.esucri.projetox.domain.utils.mirror.Mirror;
 import com.esucri.projetox.domain.utils.mirror.impl.NullIgnoreMirror;
 import com.esucri.projetox.ports.event.EventPort;
+import com.esucri.projetox.ports.ticket.TicketPort;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
@@ -17,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.esucri.projetox.adapters.exceptions.ErrorMessage.*;
 
@@ -28,6 +32,7 @@ public class EventUseCase {
 
   private final EventPort port;
   private final PromoterUseCase promoterUseCase;
+  private final TicketPort ticketPort;
 
   public EventModel salvar(String data, MultipartFile image) {
     var model = getModel(data, image);
@@ -58,6 +63,20 @@ public class EventUseCase {
       throw new ErrorWarningMessageException(
           new ErrorWarningMessage(E004.getCode(), String.format(E004.getMessage(), promoterId)));
     return eventList;
+  }
+
+  @SneakyThrows
+  public List<EventModel> readByUser(Long userId) {
+    var tickets =
+        ticketPort.readByUserId(userId).stream()
+            .filter(t -> (t.isShowedUp()) && (!t.isVoted()))
+            .collect(Collectors.toList());
+    var events = new ArrayList<EventModel>();
+    for (TicketModel ticket : tickets) {
+      var event = port.readById(ticket.getEvent().getId());
+      event.ifPresent(events::add);
+    }
+    return events;
   }
 
   public EventModel update(Long id, String data, MultipartFile image) {
@@ -96,7 +115,8 @@ public class EventUseCase {
     Assert.notNull(model.getPromoterId(), "É necessário informar o código do promoter do evento.");
     Assert.notNull(model.getName(), "É necessário informar o nome do evento.");
     Assert.notNull(model.getDescription(), "É necessário informar a descrição do evento.");
-    Assert.notNull(model.getTicketAmount(), "É necessário informar a quantidade de tickets do evento.");
+    Assert.notNull(
+        model.getTicketAmount(), "É necessário informar a quantidade de tickets do evento.");
     Assert.notNull(model.getTicketValue(), "É necessário informar o valor do ticket do evento.");
     Assert.notNull(model.getEventDate(), "É necessário informar a data do evento.");
   }
