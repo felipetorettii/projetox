@@ -22,9 +22,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import static com.esucri.projetox.adapters.exceptions.ErrorMessage.*;
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 
 @Service
 @RequiredArgsConstructor
@@ -76,7 +80,11 @@ public class EventUseCase {
       var event = port.readById(ticket.getEvent().getId());
       event.ifPresent(events::add);
     }
-    return events;
+    return events.stream()
+        .collect(
+            collectingAndThen(
+                toCollection(() -> new TreeSet<>(comparingLong(EventModel::getId))),
+                ArrayList::new));
   }
 
   public EventModel update(Long id, String data, MultipartFile image) {
