@@ -4,6 +4,7 @@ import com.esucri.projetox.adapters.exceptions.ErrorWarningMessage;
 import com.esucri.projetox.adapters.exceptions.ErrorWarningMessageException;
 import com.esucri.projetox.domain.event.usecase.EventUseCase;
 import com.esucri.projetox.domain.ticket.model.CheckinModel;
+import com.esucri.projetox.domain.ticket.model.RatingModel;
 import com.esucri.projetox.domain.ticket.model.TicketModel;
 import com.esucri.projetox.domain.user.model.UserModel;
 import com.esucri.projetox.domain.user.usecase.UserUseCase;
@@ -46,7 +47,7 @@ public class TicketUseCase {
   @SneakyThrows
   public void checkin(CheckinModel model) {
     var user = getUserModel(model);
-    var ticket = getTicketList(model, user);
+    var ticket = getTicketList(user.getId(), model.getEventId());
     ticket.forEach(t-> {
       t.setShowedUp(true);
       port.update(t);
@@ -54,8 +55,17 @@ public class TicketUseCase {
   }
 
   @SneakyThrows
-  private List<TicketModel> getTicketList(CheckinModel model, UserModel user) {
-    return port.readByUserIdAndEventId(user.getId(), model.getEventId());
+  public void rate(RatingModel model) {
+    var ticket = getTicketList(model.getUserId(), model.getEventId());
+    ticket.forEach(t-> {
+      t.setVoted(true);
+      port.update(t);
+    });
+  }
+
+  @SneakyThrows
+  private List<TicketModel> getTicketList(Long userId, Long eventId) {
+    return port.readByUserIdAndEventId(userId, eventId);
   }
 
   @SneakyThrows

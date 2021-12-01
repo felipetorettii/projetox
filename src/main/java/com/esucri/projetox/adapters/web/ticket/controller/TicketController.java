@@ -3,6 +3,7 @@ package com.esucri.projetox.adapters.web.ticket.controller;
 import com.esucri.projetox.adapters.web.GenericResponseDTO;
 import com.esucri.projetox.adapters.web.PathEndpoints;
 import com.esucri.projetox.adapters.web.ticket.controller.data.CheckinRequestDTO;
+import com.esucri.projetox.adapters.web.ticket.controller.data.RatingRequestDTO;
 import com.esucri.projetox.adapters.web.ticket.controller.data.TicketRequestDTO;
 import com.esucri.projetox.adapters.web.ticket.mapper.TicketDTOMapper;
 import com.esucri.projetox.domain.ticket.usecase.TicketUseCase;
@@ -40,6 +41,15 @@ public class TicketController {
   @ResponseStatus(HttpStatus.OK)
   public void chekin(@RequestBody @Valid CheckinRequestDTO dto) {
     useCase.checkin(mapper.toCheckinModel(dto));
+  }
+
+  @PostMapping(
+      value = "/rating",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(HttpStatus.OK)
+  public void chekin(@RequestBody @Valid RatingRequestDTO dto) {
+    useCase.rate(mapper.toRatingModel(dto));
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
