@@ -2,6 +2,7 @@ package com.esucri.projetox.adapters.web.ticket.controller;
 
 import com.esucri.projetox.adapters.web.GenericResponseDTO;
 import com.esucri.projetox.adapters.web.PathEndpoints;
+import com.esucri.projetox.adapters.web.ticket.controller.data.CheckinRequestDTO;
 import com.esucri.projetox.adapters.web.ticket.controller.data.TicketRequestDTO;
 import com.esucri.projetox.adapters.web.ticket.mapper.TicketDTOMapper;
 import com.esucri.projetox.domain.ticket.usecase.TicketUseCase;
@@ -30,6 +31,15 @@ public class TicketController {
             GenericResponseDTO.builder()
                 .data(mapper.toResponse(useCase.salvar(mapper.toModel(dto))))
                 .build());
+  }
+
+  @PostMapping(
+      value = "/checkin",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(HttpStatus.OK)
+  public void chekin(@RequestBody @Valid CheckinRequestDTO dto) {
+    useCase.checkin(mapper.toCheckinModel(dto));
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

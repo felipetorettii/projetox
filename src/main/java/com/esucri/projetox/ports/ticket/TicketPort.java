@@ -17,5 +17,7 @@ public interface TicketPort {
 
   List<TicketModel> readAll();
 
+  List<TicketModel> readByUserIdAndEventId(Long userId, Long eventId);
+
   void deleteByUserId(Long userId);
 }

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 public interface TicketRepository extends JpaRepository<TicketEntity, Long> {
 
@@ -17,4 +18,7 @@ public interface TicketRepository extends JpaRepository<TicketEntity, Long> {
   @Transactional
   @Modifying
   void deleteTicketByUserId(@Param("userId") Long userId);
+
+  @Query(value = "select t from TicketEntity t where t.user.id = :userId and t.event.id = :eventId")
+  List<TicketEntity> findByUserIdAndEventId(@Param("userId") Long userId, @Param("eventId") Long eventId);
 }
